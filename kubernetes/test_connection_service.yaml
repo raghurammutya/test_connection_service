@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-connection-service
+  namespace: stocksblitz
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-connection-service
+  template:
+    metadata:
+      labels:
+        app: test-connection-service
+    spec:
+      containers:
+        - name: test-connection-service
+          image: ghcr.io/raghurammutya/test_connection_service:latest
+          ports:
+            - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-connection-service
+  namespace: stocksblitz
+spec:
+  type: ClusterIP
+  selector:
+    app: test-connection-service
+  ports:
+    - port: 8000
+      targetPort: 8000
