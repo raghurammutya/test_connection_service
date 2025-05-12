@@ -1,0 +1,23 @@
+name: Deploy Test Connection Service
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.HETZNER_KUBECONFIG }}" > $HOME/.kube/config
+
+      - name: Deploy to Hetzner K3s
+        run: |
+          kubectl apply -f kubernetes/test_connection_service.yaml
