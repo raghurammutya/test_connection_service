@@ -1,2 +1,3 @@
 fastapi
 uvicorn[standard]
+shared-architecture==0.4.0
