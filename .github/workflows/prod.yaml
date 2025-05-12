@@ -1,0 +1,24 @@
+name: GitOps Infra Sync
+
+on:
+  push:
+    paths:
+      - 'infra/**'
+  workflow_dispatch:
+
+jobs:
+  apply-infra:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Set up Kubeconfig
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+      - name: Apply Infra Manifests
+        run: |
+          kubectl apply -f infra/
+        env:
+          KUBECONFIG: ${{ secrets.KUBECONFIG }}

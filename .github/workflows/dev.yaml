@@ -1,0 +1,15 @@
+name: Deploy Infra
+
+on:
+  push:
+    paths:
+      - "infra/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Apply Kubernetes manifests
+        run: |
+          ssh -i ${{ secrets.SSH_KEY }} stocksadmin@<PROD_IP> "cd ~/infra && ./bootstrap_prod.sh"
