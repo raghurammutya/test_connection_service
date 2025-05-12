@@ -19,7 +19,7 @@ async def startup_event():
     await app.state.cm.get_mongo()
     await app.state.cm.get_timescaledb()
     await app.state.cm.get_rabbitmq()
-    print("✅ All connections initialized successfully.")
+    print("✅ All connections initialized successfully. " )
 
 @app.get("/health")
 async def health():
